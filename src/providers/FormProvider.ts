@@ -1,5 +1,5 @@
-import {sp} from '@pnp/sp'
-import  '@pnp/sp/presets/all'
+import {sp} from '@pnp/sp';
+import  '@pnp/sp/presets/all';
 
 export interface ICountry {
     id : number;
@@ -19,7 +19,7 @@ export class FormProvider {
   public static setup(context): void {
     sp.setup({
       spfxContext: context
-    })
+    });
   }
 
     public static loadContries(): Promise<ICountry[]>{
