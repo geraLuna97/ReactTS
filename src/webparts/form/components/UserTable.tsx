@@ -1,5 +1,6 @@
 import * as React  from 'react';
 import {IUser} from "./IFormProps";
+import { PrimaryButton, DefaultButton } from "office-ui-fabric-react/lib/Button";
 
 interface IProps{
     users : Array<IUser>;
@@ -27,8 +28,8 @@ const UserTable: React.FunctionComponent<IProps> = props => {
                       <td>{user.age}</td>
                       <td>{user.sex}</td>
                       <td>
-                      <button className="button muted-button" onClick={() => props.editRow(user)}>Edit</button>
-                      <button className="button muted-button" onClick={() => props.deleteUser(user.id)}>Delete</button>
+                        <DefaultButton text={"Edit"} onClick={() => props.editRow(user)}/>
+                        <DefaultButton text={"Delete"} onClick={() => props.deleteUser(user.id)}/>
                       </td>
                   </tr>
                   ))

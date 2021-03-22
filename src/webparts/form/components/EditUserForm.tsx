@@ -1,6 +1,8 @@
 import * as React  from 'react';
 import { useState } from 'react';
 import {IUser} from "./IFormProps";
+import { PrimaryButton, DefaultButton } from "office-ui-fabric-react/lib/Button";
+
 
 interface IProps{
   updateUser : (id:number, updatedUser:IUser) => void;
@@ -23,7 +25,8 @@ export const EditUserForm:React.FunctionComponent<IProps> = (props) => {
             onSubmit={(event) => {
                 event.preventDefault();
                 props.updateUser(user.id, user);
-            }}
+            }
+          }
           >
         <label>Name</label>
         <input
@@ -43,13 +46,13 @@ export const EditUserForm:React.FunctionComponent<IProps> = (props) => {
                 <option value="Hombre">Hombre</option>
                 <option value="Mujer">Mujer</option>
             </select>
-        <button>Update user</button>
-        <button
-            onClick={() => props.setEditing(false)}
-            className="button muted-button"
-        >
-            Cancel
-        </button>
+        <PrimaryButton text={"Update user"} onClick={(event) =>
+           {
+            event.preventDefault();
+            props.updateUser(user.id, user);
+        }
+        }/>
+        <PrimaryButton text={"Cancel"} onClick={() =>  props.setEditing(false)}/>
         </form>
         </div>
     );

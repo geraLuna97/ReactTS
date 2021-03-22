@@ -2,6 +2,7 @@ import * as React  from 'react';
 import { useState } from 'react';
 import {IUser} from "./IFormProps";
 import styles from "./Form.module.scss";
+import { Label } from 'office-ui-fabric-react/lib/Label';
 import { PrimaryButton, DefaultButton } from "office-ui-fabric-react/lib/Button";
 
 interface IProps{
@@ -35,7 +36,8 @@ const AddUserForm:React.FunctionComponent<IProps> = props => {
         props.addUser(user);
         setUser(initialFormState);
       }
-      }>
+      }
+      >
           <label>Name</label>
           <input type="text"
               name="name"
@@ -52,7 +54,6 @@ const AddUserForm:React.FunctionComponent<IProps> = props => {
               <option value="Hombre">Hombre</option>
               <option value="Mujer">Mujer</option>
           </select>
-          <button className={styles.btn_add}>Add new user</button>
           <PrimaryButton text={"Add new user"} onClick={() => {
             if(!user.name || !user.age)
               return;
