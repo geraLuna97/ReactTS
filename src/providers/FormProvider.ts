@@ -1,5 +1,8 @@
 import {sp} from '@pnp/sp';
 import  '@pnp/sp/presets/all';
+import "@pnp/sp/webs";
+import "@pnp/sp/lists";
+import "@pnp/sp/items";
 
 export interface ICountry {
     id : number;
@@ -12,7 +15,6 @@ export class FormProvider {
     return fetch("")
     .then(response => response.json())
     .then(data => {
-
     });
   }
 

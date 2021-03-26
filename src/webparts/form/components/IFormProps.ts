@@ -3,6 +3,7 @@ export interface IFormProps {
 }
 
 export interface IUser{
+    key?: string | number | string[] | number[];
     id:number;
     name: string;
     age: number | string;
