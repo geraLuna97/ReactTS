@@ -12,6 +12,7 @@ import {
   IDetailsRowBaseProps,
   IDetailsRowCheckStyles,
 } from 'office-ui-fabric-react/lib/DetailsList';
+import { PersonsProvider } from '../../../providers/FormProvider';
 
 
 interface IProps{
@@ -29,20 +30,20 @@ export interface IDetailsListCustom{
 
 const UserTable: React.FunctionComponent<IProps> = props => {
 
-  let items = [props.users];
-  console.log(items);
 
 
   let columns:IColumn[] = [
-    {key: 'column1', name: 'Name', fieldName: 'name', minWidth: 100, maxWidth: 100, isResizable: true },
-    {key: 'column2', name: 'Age', fieldName: 'age', minWidth: 100, maxWidth: 100, isResizable: true },
-    {key: 'column3', name: 'Sex', fieldName: 'sex', minWidth: 100, maxWidth: 100, isResizable: true },
-    {key: 'column4', name: 'Actions', onRender: (user) => {
+    {key: 'column1', name: 'Name', fieldName: 'name', minWidth: 50, maxWidth: 50, isResizable: true },
+    {key: 'column2', name: 'Last Name', fieldName: 'lastName', minWidth: 100, maxWidth: 100, isResizable: true },
+    {key: 'column3', name: 'Age', fieldName: 'age', minWidth: 50, maxWidth: 50, isResizable: true },
+    {key: 'column4', name: 'Sex', fieldName: 'sex', minWidth: 50, maxWidth: 50, isResizable: true },
+    {key: 'column5', name: 'Country', fieldName: 'country', minWidth: 50, maxWidth: 50, isResizable: true },
+    {key: 'column6', name: 'Actions', onRender: (user) => {
       return (
           <>
                 <td>
                   <DefaultButton text={"Edit"} onClick={() => props.editRow(user)} />
-                  <DefaultButton text={"Delete"} onClick={() => props.deleteUser(user.id)} />
+                  <DefaultButton text={"Delete"} onClick={() => PersonsProvider.daletePerson(user).then(()=>{props.deleteUser(user.id);})} />
                 </td>
           </>
       );

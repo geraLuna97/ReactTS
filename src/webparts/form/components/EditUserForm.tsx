@@ -5,6 +5,7 @@ import { PrimaryButton, DefaultButton } from "office-ui-fabric-react/lib/Button"
 import { Label } from 'office-ui-fabric-react/lib/Label';
 import { Dropdown,IDropdownOption} from 'office-ui-fabric-react/lib/Dropdown';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
+import { FormProvider, PersonsProvider } from '../../../providers/FormProvider';
 interface IProps{
   updateUser : (id:number, updatedUser:IUser) => void;
   setEditing : (bool:boolean) => void;
@@ -14,17 +15,19 @@ interface IProps{
 export const EditUserForm:React.FunctionComponent<IProps> = (props) => {
 
     const [user, setUser] = useState(props.currentUser);
+    const [countries, setCountries] = useState<IDropdownOption[]> ([]);
+
+    React.useEffect(() =>{
+      FormProvider.loadContries().then(country =>{
+        setCountries(country);
+      });
+    },[]);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> /*{ target: { name: any; value: any; }; }*/) => {
         const { name, value } = event.target;
 
 
         setUser({ ...user, [name]: value });
-      };
-
-      const handleInputChangeDropDown = (e, selectedOption:IDropdownOption) =>{
-        const NewUserCopy = {...user,sex:(selectedOption.key as string)};
-        setUser(NewUserCopy);
       };
 
       const handleInputTextFieldName = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) =>{
@@ -36,19 +39,39 @@ export const EditUserForm:React.FunctionComponent<IProps> = (props) => {
         const NewUserCopy = {...user,age:newValue};
         setUser(NewUserCopy);
       };
-      const options:IDropdownOption[] = [
+
+      const handleInputTextFieldlastName = (event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) =>{
+        const NewUserCopy = {...user,lastName:newValue};
+        setUser(NewUserCopy);
+      };
+
+      const handleInputChangeDropDownSex = (e, selectedOption:IDropdownOption) =>{
+        const NewUserCopy = {...user,sex:(selectedOption.text as string)};
+        setUser(NewUserCopy);
+      };
+
+      const handleInputChangeDropDownCountry = (e, selectedOption:IDropdownOption) =>{
+        const NewUserCopy = {...user,country:(selectedOption.text as string),countryId:(selectedOption.key as number)};
+        setUser(NewUserCopy);
+      };
+
+      const optionsSex:IDropdownOption[] = [
         { key: 'Hombre', text: 'Hombre'},
         { key: 'Mujer', text: 'Mujer'},
         ];
 
-
     return (
         <>
-    <TextField type="text"
+          <TextField type="text"
               label="Name"
               name="name"
               value={user.name}
               onChange={handleInputTextFieldName}/>
+          <TextField type="text"
+              label="Last Name"
+              name="lastName"
+              value={user.lastName}
+              onChange={handleInputTextFieldlastName}/>
           <TextField type="text"
               label="Age"
               name="age"
@@ -56,9 +79,15 @@ export const EditUserForm:React.FunctionComponent<IProps> = (props) => {
               onChange={handleInputTextFieldAge}/>
           <Dropdown
               label="Sex"
-              options={options}
+              options={optionsSex}
               selectedKey = {user.sex}
-              onChange={handleInputChangeDropDown}
+              onChange={handleInputChangeDropDownSex}
+            />
+            <Dropdown
+              label="Country"
+              options={countries}
+              selectedKey = {user.countryId}
+              onChange={handleInputChangeDropDownCountry}
             />
         {/* <form
             onSubmit={(event) => {
@@ -88,8 +117,11 @@ export const EditUserForm:React.FunctionComponent<IProps> = (props) => {
           </form> */}
         <PrimaryButton text={"Update user"} onClick={(event) =>
           {
-            event.preventDefault();
-            props.updateUser(user.id, user);
+            PersonsProvider.updatePersons(user).then(()=>{
+              props.updateUser(user.id, user);
+              event.preventDefault();
+            });
+
           }
         }/>
         <PrimaryButton text={"Cancel"} onClick={() =>  props.setEditing(false)}/>
