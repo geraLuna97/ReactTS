@@ -6,6 +6,7 @@ import { Label } from 'office-ui-fabric-react/lib/Label';
 import { Dropdown,IDropdownOption} from 'office-ui-fabric-react/lib/Dropdown';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { FormProvider, PersonsProvider } from '../../../providers/FormProvider';
+
 interface IProps{
   updateUser : (id:number, updatedUser:IUser) => void;
   setEditing : (bool:boolean) => void;

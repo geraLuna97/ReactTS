@@ -3,9 +3,12 @@ import { useState } from 'react';
 import UserTable from './UserTable';
 import AddUserForm from './AddUserForm';
 import EditUserForm from './EditUserForm';
+import AddandEditUserForm from './AddandEditUserForm';
 import styles from "./Form.module.scss";
 import {IFormProps, IUser} from "./IFormProps";
 import { FormProvider, PersonsProvider } from '../../../providers/FormProvider';
+import { Item } from '@pnp/sp/items';
+
 
 
 
@@ -32,12 +35,6 @@ const App =  () => {
     getPersons();
   },[]);
 
-  const getCountries = () =>{
-    FormProvider.loadContries().then(countries =>{
-    console.log("Countries", countries);
-    });
-  };
-
   const getPersons = () =>{
     PersonsProvider.loadPersons().then(persons =>{
     console.log("Persons", persons);
@@ -45,6 +42,7 @@ const App =  () => {
     setUsers(persons);
     });
   };
+
 
 
   // const hadnleAdd = () =>{
@@ -76,7 +74,7 @@ const App =  () => {
   const editRow = (user:IUser) =>{
       setEditing(true);
       setCurrentUser({id:user.id , name:user.name, lastName:user.lastName ,age:user.age, sex:user.sex, country:user.country,countryId:user.countryId});
-  };
+    };
 
   return(
       <div className = {styles.form}>
@@ -84,7 +82,19 @@ const App =  () => {
           <h1>Form whit hooks</h1>
               <div className = "flex-row">
                   <div className = "flex-large">
-                      {editing ? (
+                    {
+                      <>
+                      <h2>Add/Edit user</h2>
+                      <AddandEditUserForm
+                          addUser={addUser}
+                          updateUser={updateUser}
+                          editing={editing}
+                          currentUser={currentUser}
+                          setEditing={setEditing}
+                      />
+                      </>
+                    }
+                      {/* {editing ? (
                           <>
                               <h2>Edit user</h2>
                                   <EditUserForm
@@ -98,7 +108,7 @@ const App =  () => {
                                   <AddUserForm addUser={addUser}/>
                               </>
                           )
-                  }
+                    } */}
                   </div>
                   <div className = "flex-large">
                       <h2>Ver Users</h2>

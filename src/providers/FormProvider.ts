@@ -6,6 +6,7 @@ import "@pnp/sp/items";
 import { IItemAddResult } from "@pnp/sp/items";
 import {IUser} from "../webparts/form/components/IFormProps";
 import { Dropdown,IDropdownOption} from 'office-ui-fabric-react/lib/Dropdown';
+import { ChoiceGroupBase } from 'office-ui-fabric-react';
 export interface ICountry {
     id : number;
     title : string;
@@ -114,6 +115,63 @@ export class FormProvider {
       });
     }
 
+    public static promise() {
+
+      // sp.web.select('Choices')()
+      // .then(data =>{
+      //   return sp.web.select('Choices')()
+      //   .then(data =>{
+      //     return sp.web.select('Choices')()
+      //     .then(data =>{
+      //       return [ 0 ]
+      //     })
+      //   })
+      // })
+
+      const promise = sp.web.select('Choices')()
+      .then(data =>{
+        return false;
+      });
+
+      const promise2 = sp.web.select('Choices')()
+      .then(data =>{
+        return [ 0 ];
+      });
+
+      const promise3 = promise
+      .then(data =>{
+        return promise2.then(data =>{
+          return false;
+        })
+        // return 0
+      });
+      //siempre toma el ultimo return declarado o que se puso
+      return promise3;
+    }
+
+
+    public static loadSex():Promise<IDropdownOption[]>{
+      return sp.web.lists.getByTitle('Persons')
+      .fields.getByTitle("Sex").select('Choices')()
+      .then(data =>{
+        //cuando el objeto no tiene un constructor es como hacer un get no puedo hacerlo con el .
+        // De puede de ambas maneras colocadas abajo, marca error por la interfaz
+        // sabiendo que la propiedad choices el nombre, la convierto en un arreglo con as string para que
+        // me funcione el .map
+        let results = data["Choices"] as string[];
+        // let results = data.Choices;
+        return results.map(item =>{
+          const option: IDropdownOption =
+            {
+              key: item,
+              text: item
+            };
+            return option;
+        });
+      }).catch(result => {
+        return Promise.reject(result);
+      });
+    }
 
     public static updateContries(country: ICountry): Promise<ICountry>{
 

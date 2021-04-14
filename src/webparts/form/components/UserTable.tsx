@@ -1,17 +1,7 @@
 import * as React  from 'react';
 import {IUser} from "./IFormProps";
 import { PrimaryButton, DefaultButton } from "office-ui-fabric-react/lib/Button";
-import {
-  DetailsList,
-  DetailsListLayoutMode,
-  IColumn,
-  IDetailsFooterProps,
-  DetailsRow,
-  SelectionMode,
-  DetailsRowCheck,
-  IDetailsRowBaseProps,
-  IDetailsRowCheckStyles,
-} from 'office-ui-fabric-react/lib/DetailsList';
+import {DetailsList,DetailsListLayoutMode,IColumn,} from 'office-ui-fabric-react/lib/DetailsList';
 import { PersonsProvider } from '../../../providers/FormProvider';
 
 
@@ -43,7 +33,7 @@ const UserTable: React.FunctionComponent<IProps> = props => {
           <>
                 <td>
                   <DefaultButton text={"Edit"} onClick={() => props.editRow(user)} />
-                  <DefaultButton text={"Delete"} onClick={() => PersonsProvider.daletePerson(user).then(()=>{props.deleteUser(user.id);})} />
+                  <DefaultButton text={"Delete"} onClick={() => {if(window.confirm('Are you sure to delete this record?')) {PersonsProvider.daletePerson(user).then(()=>{props.deleteUser(user.id);});}}} />
                 </td>
           </>
       );
