@@ -142,7 +142,7 @@ export class FormProvider {
       .then(data =>{
         return promise2.then(data =>{
           return false;
-        })
+        });
         // return 0
       });
       //siempre toma el ultimo return declarado o que se puso

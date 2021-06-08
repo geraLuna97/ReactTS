@@ -29,12 +29,6 @@ const App =  () => {
   const [currentUser, setCurrentUser] = useState(initialFormState);
 
 
-
-  React.useEffect(() =>{
-    //Se ejecuta una sola ves cuando se renderiza el componente
-    getPersons();
-  },[]);
-
   const getPersons = () =>{
     PersonsProvider.loadPersons().then(persons =>{
     console.log("Persons", persons);
@@ -43,7 +37,10 @@ const App =  () => {
     });
   };
 
-
+  React.useEffect(() =>{
+    //Se ejecuta una sola ves cuando se renderiza el componente
+    getPersons();
+  },[]);
 
   // const hadnleAdd = () =>{
   //     setUsers([...users,{id :5, name: 'Perro', age:35, sex:'hombre'}])
